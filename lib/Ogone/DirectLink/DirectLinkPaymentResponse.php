@@ -32,6 +32,10 @@ class DirectLinkPaymentResponse extends AbstractPaymentResponse
             // filter request for Ogone parameters
             $this->parameters = $this->filterRequestParameters($attributesArray);
 
+            // for 3D-secure responses
+            if (isset($xmlResponse->HTML_ANSWER)) {
+                $this->parameters['HTML_ANSWER'] = base64_decode($xmlResponse->HTML_ANSWER);
+            }
         } else {
             throw new InvalidArgumentException("No valid XML-string given");
         }
